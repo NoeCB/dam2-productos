@@ -1,0 +1,137 @@
+.header-section {
+  margin-bottom: 16px;
+
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--ion-color-dark);
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+/* Grid de cuadraditos */
+.cuadraditos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.cuadradito-card {
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--ion-card-background, #fff);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  .img-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Cuadrado */
+    overflow: hidden;
+    background: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .card-body {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+
+    .product-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+      color: var(--ion-color-dark);
+      line-height: 1.25;
+    }
+
+    .product-desc {
+      font-size: 0.8rem;
+      color: var(--ion-color-medium);
+      margin: 0 0 10px 0;
+      line-height: 1.2;
+    }
+
+    .price-row {
+      margin-top: auto;
+
+      .product-price {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #d81b60; /* Toque fucsia elegante Juicy Couture */
+      }
+    }
+  }
+}
+
+.divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 28px 0;
+}
+
+/* Estilos de la tabla de la práctica */
+.loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background: var(--ion-color-primary);
+  color: white;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
