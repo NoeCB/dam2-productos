@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sobre Nosotros</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleTheme()" shape="round" color="secondary" fill="solid" class="theme-toggle-btn">
+        {{ themeService.isDarkMode ? 'Modo Claro' : 'Modo Oscuro' }}
+      </ion-button>
+      <ion-button routerLink="/inicio" fill="clear">
+        Inicio
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="about-container">
+
+    <ion-card class="profile-card">
+      <ion-card-header>
+        <ion-card-title>Proyecto creado por Noelia Cantador</ion-card-title>
+        <ion-card-subtitle>Para la asignatura de Desarrollo de Interfaces</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>
+          Puedes explorar el código fuente, la estructura de componentes y el repositorio de este proyecto en GitHub:
+        </p>
+
+        <div class="github-box">
+          <a [href]="githubUrl" target="_blank" rel="noopener noreferrer" class="github-link-btn">
+            <ion-button fill="solid" color="primary" expand="block">
+              Ver Repositorio y Perfil (@NoeCB)
+            </ion-button>
+          </a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>

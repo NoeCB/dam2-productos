@@ -1,22 +1,35 @@
-<ion-header> 
-  <ion-toolbar> 
-    <ion-title> 
-      Inicio 
-    </ion-title> 
-  </ion-toolbar> 
-</ion-header> 
- 
-<ion-content class="ion-padding"> 
- 
-  <h1>DAM2 - API REST</h1> 
- 
-  <p> 
-    Aplicación Ionic + Angular Standalone 
-    para consumir una API REST. 
-  </p> 
- 
-  <ion-button routerLink="/productos"> 
-    Ver productos 
-  </ion-button> 
- 
-</ion-content> 
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Inicio
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleTheme()" shape="round" color="secondary" fill="solid" class="theme-toggle-btn">
+        {{ themeService.isDarkMode ? 'Modo Claro' : 'Modo Oscuro' }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding inicio-content">
+
+  <div class="welcome-container">
+    <h1>Venta de productos</h1>
+
+    <div class="nav-buttons">
+      <ion-button routerLink="/productos" expand="block" color="primary">
+        Ver productos y catálogo
+      </ion-button>
+
+      <ion-button routerLink="/about" expand="block" fill="outline" color="primary">
+        Sobre nosotros (About)
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Texto posicionado abajo a la derecha con estilo sutil -->
+  <div class="bottom-right-caption">
+    Aplicación Ionic + Angular Standalone para consumir una API REST y catálogo de productos.
+  </div>
+
+</ion-content>

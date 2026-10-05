@@ -1,0 +1,56 @@
+.inicio-content {
+  --padding-bottom: 60px;
+  position: relative;
+  min-height: 100%;
+}
+
+.welcome-container {
+  max-width: 480px;
+  margin: 15vh auto 0;
+  text-align: center;
+  padding: 0 16px;
+
+  h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    ion-button {
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      --border-radius: 10px;
+    }
+  }
+}
+
+.bottom-right-caption {
+  position: absolute;
+  bottom: 24px;
+  right: 28px;
+  max-width: 380px;
+  text-align: right;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--ion-color-step-600, #777);
+  opacity: 0.85;
+}
+
+@media (max-width: 600px) {
+  .welcome-container {
+    margin-top: 10vh;
+  }
+
+  .bottom-right-caption {
+    position: static;
+    margin-top: 60px;
+    text-align: center;
+    max-width: 100%;
+  }
+}

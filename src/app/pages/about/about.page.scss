@@ -1,0 +1,109 @@
+.about-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px 0 30px;
+}
+
+.company-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+
+  .logo-badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d81b60, #8e24aa);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  ion-card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--ion-color-dark);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    color: #d81b60;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--ion-color-step-700, #444);
+    margin-bottom: 12px;
+  }
+}
+
+.company-values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+
+  .value-item {
+    background: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.08);
+    border-left: 4px solid var(--ion-color-primary);
+    padding: 10px 14px;
+    border-radius: 8px;
+
+    strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: var(--ion-color-primary-shade);
+    }
+
+    span {
+      font-size: 0.85rem;
+      color: #666;
+    }
+  }
+}
+
+.profile-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+
+  ion-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    color: #555;
+  }
+
+  .github-box {
+    margin-top: 10px;
+
+    .github-link-btn {
+      text-decoration: none;
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+
+  ion-button {
+    font-weight: 600;
+  }
+}

@@ -3,98 +3,227 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/inicio"></ion-back-button>
     </ion-buttons>
-    <ion-title>Productos</ion-title>
+    <ion-title>Catálogo de Productos</ion-title>
+    <ion-buttons slot="end">
+      <!-- Botón Modo Oscuro con píldora de alto contraste -->
+      <ion-button (click)="toggleTheme()" shape="round" color="secondary" fill="solid" class="theme-toggle-btn">
+        {{ themeService.isDarkMode ? 'Modo Claro' : 'Modo Oscuro' }}
+      </ion-button>
+
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding productos-content">
 
-  <!-- Sección Cuadraditos: Bolsos Juicy Couture -->
+
+
+  <!-- Encabezado de la vista -->
   <div class="header-section">
-    <h1>Bolsos Juicy Couture</h1>
-    <p class="subtitle">Catálogo exclusivo</p>
+    <h1>Catálogo de Productos</h1>
   </div>
-
-  <div class="cuadraditos-grid">
-    @for (bag of juicyBags; track bag.id) {
-      <ion-card class="cuadradito-card">
-        <div class="img-wrapper">
-          <img [src]="bag.imagen" [alt]="bag.nombre" />
-        </div>
-        <div class="card-body">
-          <h3 class="product-title">{{ bag.nombre }}</h3>
-          <p class="product-desc">{{ bag.descripcion }}</p>
-          <div class="price-row">
-            <span class="product-price">{{ bag.precio | currency:'EUR' }}</span>
-          </div>
-        </div>
-      </ion-card>
-    }
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- Sección API REST DummyJSON -->
-  <h1>Listado de productos (API REST)</h1>
 
   @if (loading) {
-    <div class="loading">
-      <ion-spinner></ion-spinner>
-      <p>Cargando productos...</p>
+    <div class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>Cargando productos de la API...</p>
     </div>
   }
 
   @if (error) {
-    <ion-card>
+    <ion-card color="danger" class="error-card">
       <ion-card-header>
-        <ion-card-title>Error</ion-card-title>
+        <ion-card-title>Error de conexión</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <p>{{ error }}</p>
-        <ion-button (click)="loadProducts()">Reintentar</ion-button>
+        <ion-button (click)="loadProducts()" fill="solid" color="light">Reintentar</ion-button>
       </ion-card-content>
     </ion-card>
   }
 
   @if (!loading && !error) {
-    <p>
-      Productos cargados:
-      <strong>{{ products.length }}</strong>
-    </p>
 
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Producto</th>
-            <th>Categoría</th>
-            <th>Marca</th>
-            <th>Precio</th>
-            <th>Valoración</th>
-            <th>Stock</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (product of products; track product.id) {
-            <tr>
-              <td>{{ product.id }}</td>
-              <td>
-                <div class="product">
-                  <img [src]="product.thumbnail" [alt]="product.title">
-                  <span>{{ product.title }}</span>
-                </div>
-              </td>
-              <td>{{ product.category }}</td>
-              <td>{{ product.brand || 'Sin marca' }}</td>
-              <td>{{ product.price | currency:'EUR' }}</td>
-              <td>⭐ {{ product.rating }}</td>
-              <td>{{ product.stock }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+
+
+    <!-- SELECTOR DE VISTA Y CONTADOR -->
+    <div class="view-switch-row">
+      <div class="switch-buttons">
+        <ion-button 
+          [fill]="viewMode === 'cards' ? 'solid' : 'outline'" 
+          color="primary" 
+          size="small" 
+          (click)="changeViewMode('cards')">
+          Vista Tarjetas
+        </ion-button>
+        <ion-button 
+          [fill]="viewMode === 'table' ? 'solid' : 'outline'" 
+          color="primary" 
+          size="small" 
+          (click)="changeViewMode('table')">
+          Vista Tabla
+        </ion-button>
+      </div>
+
+      <span class="page-indicator-text">
+        Mostrando {{ (currentPage - 1) * pageSize + 1 }} - 
+        {{ currentPage * pageSize > products.length ? products.length : currentPage * pageSize }} 
+        de {{ products.length }} productos
+      </span>
     </div>
+
+    <!-- COMPONENTE VISUAL ATRACTIVO: CARDS DE LA API -->
+    @if (viewMode === 'cards') {
+      <div class="api-cards-grid">
+        @for (product of paginatedProducts; track product.id) {
+          <ion-card class="api-product-card">
+            <div class="product-badge-wrap">
+              <ion-badge color="primary">{{ product.category }}</ion-badge>
+              @if (product.discountPercentage) {
+                <ion-badge color="danger">-{{ product.discountPercentage }}%</ion-badge>
+              }
+            </div>
+
+            <div class="card-thumb">
+              <img [src]="product.thumbnail" [alt]="product.title" loading="lazy" />
+            </div>
+
+            <ion-card-header>
+              <div class="brand-rating">
+                <span class="brand-tag">{{ product.brand || 'Genérica' }}</span>
+                <span class="rating-tag">{{ product.rating }}</span>
+              </div>
+              <ion-card-title>{{ product.title }}</ion-card-title>
+              <ion-card-subtitle>{{ product.description }}</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+              <!-- Dimensiones de Ancho y Alto -->
+              <div class="dimensions-box">
+                <strong>Dimensiones:</strong>
+                @if (product.dimensions) {
+                  <span>{{ product.dimensions.width }} × {{ product.dimensions.height }} cm</span>
+                } @else {
+                  <span>N/D</span>
+                }
+              </div>
+
+              <!-- Precios y Stock Valorado -->
+              <div class="price-stock-box">
+                <div class="price-col">
+                  <span class="original-price">PVP: {{ product.price | currency:'EUR' }}</span>
+                  <span class="final-price">
+                    {{ (product.price * (1 - (product.discountPercentage || 0) / 100)) | currency:'EUR' }}
+                  </span>
+                </div>
+                <div class="stock-col">
+                  <span class="stock-label">Stock: <strong>{{ product.stock }} uds</strong></span>
+                  <span class="stock-valorado-label">
+                    Total: <strong>{{ calcularStockValorado(product) | currency:'EUR' }}</strong>
+                  </span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        }
+      </div>
+    }
+
+    <!-- VISTA TABLA -->
+    @if (viewMode === 'table') {
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Marca</th>
+              <th>Dimensiones (An x Al)</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Stock Valorado</th>
+              <th>Valoración</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of paginatedProducts; track product.id) {
+              <tr>
+                <td>{{ product.id }}</td>
+                <td>
+                  <div class="product">
+                    <img [src]="product.thumbnail" [alt]="product.title">
+                    <span>{{ product.title }}</span>
+                  </div>
+                </td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.brand || 'Sin marca' }}</td>
+                <td>
+                  @if (product.dimensions) {
+                    {{ product.dimensions.width }} × {{ product.dimensions.height }} cm
+                  } @else {
+                    N/D
+                  }
+                </td>
+                <td>{{ product.price | currency:'EUR' }}</td>
+                <td>{{ product.stock }}</td>
+                <td class="stock-valorado">
+                  <strong>{{ calcularStockValorado(product) | currency:'EUR' }}</strong>
+                  @if (product.discountPercentage) {
+                    <small class="discount-badge">(-{{ product.discountPercentage }}%)</small>
+                  }
+                </td>
+                <td>{{ product.rating }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- CONTROLES DE PAGINACIÓN -->
+    <div class="pagination-container">
+      <ion-button 
+        [disabled]="currentPage === 1" 
+        (click)="prevPage()" 
+        fill="outline" 
+        size="small">
+        ← Anterior
+      </ion-button>
+
+      <div class="pagination-numbers">
+        @for (p of [1, 2, 3, 4, 5]; track p) {
+          @if (p <= totalPages) {
+            <ion-button 
+              [fill]="currentPage === p ? 'solid' : 'clear'" 
+              color="primary" 
+              size="small" 
+              class="page-num-btn"
+              (click)="setPage(p)">
+              {{ p }}
+            </ion-button>
+          }
+        }
+      </div>
+
+      <span class="pagination-status">Página {{ currentPage }} de {{ totalPages }}</span>
+
+      <ion-button 
+        [disabled]="currentPage === totalPages" 
+        (click)="nextPage()" 
+        fill="outline" 
+        size="small">
+        Siguiente →
+      </ion-button>
+    </div>
+
   }
+
+  <!-- Botón inferior para regresar a inicio -->
+  <div class="bottom-action">
+    <ion-button routerLink="/inicio" fill="solid" color="primary">
+      Volver a la Página de Inicio
+    </ion-button>
+  </div>
 
 </ion-content>
